@@ -4,7 +4,8 @@
  */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '@/types';
-import { getCurrentUser, login as storeLogin, logout as storeLogout, signUp as storeSignUp, loginAsAdmin, type ClientType } from '@/lib/store';
+import { getCurrentUser, login as storeLogin, logout as storeLogout, signUp as storeSignUp, loginAsAdmin } from '@/lib/store';
+import { ClientType } from '@/types';
 
 interface AuthContextType {
   user: User | null;
