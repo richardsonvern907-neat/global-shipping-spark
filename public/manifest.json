@@ -1,0 +1,21 @@
+{
+  "name": "EAGLE-EXPRESS",
+  "short_name": "EAGLE-EXPRESS",
+  "description": "Enterprise logistics platform — Ship anywhere, track everything. Founded 2024 in Zurich, Switzerland.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#003087",
+  "theme_color": "#FF6600",
+  "icons": [
+    {
+      "src": "/placeholder.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
