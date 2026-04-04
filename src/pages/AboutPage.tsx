@@ -1,6 +1,7 @@
 import { Award, Shield, Plane, Leaf, Quote } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { useLanguage } from '@/context/LanguageContext';
 import zurichImg from '@/assets/about-zurich.jpg';
 import React from 'react';
 
@@ -28,38 +29,25 @@ const CERTS = [
 ];
 
 export default function AboutPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen">
-      {/* Hero with Zurich image */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         <img src={zurichImg} alt="Zurich, Switzerland - EAGLE-EXPRESS headquarters" width={1200} height={600} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--eagle-navy))/0.9] via-[hsl(var(--eagle-navy))/0.7] to-[hsl(var(--eagle-navy))/0.5]" />
         <div className="container relative z-10 text-center max-w-3xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white animate-fade-in">About EAGLE-EXPRESS</h1>
-          <p className="text-lg text-white/80 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Founded 2024 in Zurich, Switzerland — Connecting the world with reliable, sustainable logistics.
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white animate-fade-in">{t.about_title}</h1>
+          <p className="text-lg text-white/80 animate-fade-in" style={{ animationDelay: '0.2s' }}>{t.about_subtitle}</p>
         </div>
       </section>
 
-      {/* Story */}
       <section className="py-16">
         <div className="container max-w-3xl space-y-6">
-          <AnimatedSection>
-            <h2 className="text-3xl font-bold">Our Story</h2>
-          </AnimatedSection>
-          <AnimatedSection delay={100}>
-            <p className="text-muted-foreground leading-relaxed">
-              EAGLE-EXPRESS was born from a simple vision: to bring Swiss precision to global logistics. Headquartered in Zurich, we combine cutting-edge technology with decades of industry expertise to deliver packages across 200+ countries.
-            </p>
-          </AnimatedSection>
-          <AnimatedSection delay={200}>
-            <p className="text-muted-foreground leading-relaxed">
-              Whether you're a private individual shipping a gift to a loved one or an international enterprise managing complex supply chains, EAGLE-EXPRESS provides the tools, transparency, and trust you need.
-            </p>
-          </AnimatedSection>
+          <AnimatedSection><h2 className="text-3xl font-bold">{t.about_mission}</h2></AnimatedSection>
+          <AnimatedSection delay={100}><p className="text-muted-foreground leading-relaxed">{t.about_story}</p></AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
-            {[{ v: '200+', l: 'Countries Served' }, { v: '99.7%', l: 'On-Time Delivery' }, { v: '24/7', l: 'Global Support' }].map((s, i) => (
+            {[{ v: '200+', l: t.stat_countries }, { v: '99.7%', l: t.stat_ontime }, { v: '24/7', l: t.stat_support }].map((s, i) => (
               <AnimatedSection key={s.l} delay={i * 150} className="text-center p-6 rounded-lg bg-secondary/50 border">
                 <p className="text-3xl font-bold text-eagle-orange">{s.v}</p>
                 <p className="text-sm text-muted-foreground">{s.l}</p>
@@ -69,23 +57,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-16 bg-secondary/50">
         <div className="container">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl font-bold">What Our Clients Say</h2>
-          </AnimatedSection>
+          <AnimatedSection className="text-center mb-12"><h2 className="text-3xl font-bold">{t.about_testimonials}</h2></AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {TESTIMONIALS.map((t, i) => (
-              <AnimatedSection key={t.name} delay={i * 150}>
+            {TESTIMONIALS.map((item, i) => (
+              <AnimatedSection key={item.name} delay={i * 150}>
                 <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
                   <CardContent className="pt-6">
                     <Quote className="h-6 w-6 text-eagle-orange mb-3" />
-                    <p className="text-sm text-muted-foreground mb-4 italic">"{t.text}"</p>
-                    <div>
-                      <p className="font-semibold text-sm">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.role}</p>
-                    </div>
+                    <p className="text-sm text-muted-foreground mb-4 italic">"{item.text}"</p>
+                    <div><p className="font-semibold text-sm">{item.name}</p><p className="text-xs text-muted-foreground">{item.role}</p></div>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -94,12 +76,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Certifications */}
       <section className="py-16">
         <div className="container">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl font-bold">Certifications & Compliance</h2>
-          </AnimatedSection>
+          <AnimatedSection className="text-center mb-12"><h2 className="text-3xl font-bold">{t.about_certs}</h2></AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {CERTS.map((c, i) => (
               <AnimatedSection key={c.title} delay={i * 100}>

@@ -3,21 +3,24 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, User, LogOut, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import eagleLogo from '@/assets/eagle-logo.png';
-
-const NAV_LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/ship', label: 'Ship Now' },
-  { to: '/tracking', label: 'Track' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
-];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const { t } = useLanguage();
   const location = useLocation();
+
+  const NAV_LINKS = [
+    { to: '/', label: t.nav_home },
+    { to: '/ship', label: t.nav_ship },
+    { to: '/tracking', label: t.nav_track },
+    { to: '/about', label: t.nav_about },
+    { to: '/contact', label: t.nav_contact },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,6 +51,7 @@ export function Header() {
 
         {/* Right side */}
         <div className="hidden md:flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
           {isAuthenticated ? (
             <>
@@ -57,20 +61,21 @@ export function Header() {
                   {user?.name}
                 </Button>
               </Link>
-              <Button variant="ghost" size="icon" onClick={logout} aria-label="Logout">
+              <Button variant="ghost" size="icon" onClick={logout} aria-label={t.nav_logout}>
                 <LogOut className="h-4 w-4" />
               </Button>
             </>
           ) : (
             <>
-              <Link to="/login"><Button variant="ghost" size="sm">Login</Button></Link>
-              <Link to="/signup"><Button size="sm" className="bg-eagle-orange hover:bg-eagle-orange-hover text-white hover:scale-105 transition-transform">Sign Up</Button></Link>
+              <Link to="/login"><Button variant="ghost" size="sm">{t.nav_login}</Button></Link>
+              <Link to="/signup"><Button size="sm" className="bg-eagle-orange hover:bg-eagle-orange-hover text-white hover:scale-105 transition-transform">{t.nav_signup}</Button></Link>
             </>
           )}
         </div>
 
         {/* Mobile toggle */}
         <div className="flex md:hidden items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
           <Button variant="ghost" size="icon" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -97,13 +102,13 @@ export function Header() {
                     </Button>
                   </Link>
                   <Button variant="ghost" onClick={() => { logout(); setMobileOpen(false); }} className="w-full justify-start gap-2">
-                    <LogOut className="h-4 w-4" /> Logout
+                    <LogOut className="h-4 w-4" /> {t.nav_logout}
                   </Button>
                 </>
               ) : (
                 <>
-                  <Link to="/login" onClick={() => setMobileOpen(false)}><Button variant="ghost" className="w-full">Login</Button></Link>
-                  <Link to="/signup" onClick={() => setMobileOpen(false)}><Button className="w-full bg-eagle-orange hover:bg-eagle-orange-hover text-white">Sign Up</Button></Link>
+                  <Link to="/login" onClick={() => setMobileOpen(false)}><Button variant="ghost" className="w-full">{t.nav_login}</Button></Link>
+                  <Link to="/signup" onClick={() => setMobileOpen(false)}><Button className="w-full bg-eagle-orange hover:bg-eagle-orange-hover text-white">{t.nav_signup}</Button></Link>
                 </>
               )}
             </div>

@@ -8,18 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { calculateQuote } from '@/lib/store';
 import { ClientType, QuoteResult } from '@/types';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { useLanguage } from '@/context/LanguageContext';
 import heroImg from '@/assets/hero-logistics.jpg';
 import expressImg from '@/assets/service-express.jpg';
 import freightImg from '@/assets/service-freight.jpg';
 import ecommerceImg from '@/assets/service-ecommerce.jpg';
 import warehouseImg from '@/assets/service-warehouse.jpg';
-
-const SERVICES = [
-  { img: expressImg, title: 'Express Shipping', desc: 'Next-day and same-day delivery across Switzerland and Europe.' },
-  { img: freightImg, title: 'International Freight', desc: 'Global cargo solutions for businesses of any size, any route.' },
-  { img: ecommerceImg, title: 'E-Commerce Solutions', desc: 'Seamless fulfillment and returns management for online retailers.' },
-  { img: warehouseImg, title: 'Warehousing & Logistics', desc: 'State-of-the-art storage facilities with real-time inventory tracking.' },
-];
 
 const CERTIFICATIONS = [
   { icon: Award, label: 'ISO 9001:2015' },
@@ -28,21 +22,10 @@ const CERTIFICATIONS = [
   { icon: Leaf, label: 'EcoVadis Gold' },
 ];
 
-const STATS = [
-  { value: '200+', label: 'Countries Served' },
-  { value: '99.7%', label: 'On-Time Delivery' },
-  { value: '50K+', label: 'Monthly Shipments' },
-  { value: '24/7', label: 'Global Support' },
-];
-
 function AnimatedSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const { ref, isVisible } = useScrollAnimation();
   return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
+    <div ref={ref} className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
     </div>
   );
@@ -50,12 +33,27 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [trackingInput, setTrackingInput] = useState('');
   const [quoteOrigin, setQuoteOrigin] = useState('');
   const [quoteDestination, setQuoteDestination] = useState('');
   const [quoteWeight, setQuoteWeight] = useState('');
   const [quoteClientType, setQuoteClientType] = useState<ClientType>('private');
   const [quoteResult, setQuoteResult] = useState<QuoteResult | null>(null);
+
+  const SERVICES = [
+    { img: expressImg, title: t.service_express, desc: t.service_express_desc },
+    { img: freightImg, title: t.service_freight, desc: t.service_freight_desc },
+    { img: ecommerceImg, title: t.service_ecommerce, desc: t.service_ecommerce_desc },
+    { img: warehouseImg, title: t.service_warehouse, desc: t.service_warehouse_desc },
+  ];
+
+  const STATS = [
+    { value: '200+', label: t.stat_countries },
+    { value: '99.7%', label: t.stat_ontime },
+    { value: '50K+', label: t.stat_shipments },
+    { value: '24/7', label: t.stat_support },
+  ];
 
   const handleTrack = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,27 +79,27 @@ export default function HomePage() {
         <div className="container relative z-10 py-20">
           <div className="max-w-3xl mx-auto text-center text-white space-y-6">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-in">
-              Connecting the World<br />
-              <span className="text-eagle-orange">from Zurich</span>
+              {t.hero_title_1}<br />
+              <span className="text-eagle-orange">{t.hero_title_2}</span>
             </h1>
             <p className="text-lg md:text-xl text-white/80 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Enterprise logistics powered by Swiss precision. Ship anywhere, track everything, deliver on time.
+              {t.hero_subtitle}
             </p>
 
             <form onSubmit={handleTrack} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-xl mx-auto animate-slide-up" style={{ animationDelay: '0.4s' }}>
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input value={trackingInput} onChange={e => setTrackingInput(e.target.value)} placeholder="Track your shipment (e.g. EE1234567890)" className="pl-10 h-12 bg-white text-foreground border-0 shadow-lg" aria-label="Tracking number" />
+                <Input value={trackingInput} onChange={e => setTrackingInput(e.target.value)} placeholder={t.hero_track_placeholder} className="pl-10 h-12 bg-white text-foreground border-0 shadow-lg" aria-label="Tracking number" />
               </div>
               <Button type="submit" className="h-12 px-8 bg-eagle-orange hover:bg-eagle-orange-hover text-white font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                Track <ChevronRight className="h-4 w-4" />
+                {t.hero_track_btn} <ChevronRight className="h-4 w-4" />
               </Button>
             </form>
 
             <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-white/70 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-              <span>✓ Real-time tracking</span>
-              <span>✓ 200+ countries</span>
-              <span>✓ Swiss quality</span>
+              <span>✓ {t.hero_badge_tracking}</span>
+              <span>✓ {t.hero_badge_countries}</span>
+              <span>✓ {t.hero_badge_quality}</span>
             </div>
           </div>
         </div>
@@ -125,8 +123,7 @@ export default function HomePage() {
       <section className="py-16 md:py-24">
         <div className="container">
           <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">Our Services</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto">Comprehensive logistics solutions tailored to your needs — from express parcels to global freight.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">{t.services_title}</h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {SERVICES.map((svc, i) => (
@@ -141,7 +138,7 @@ export default function HomePage() {
                   <CardContent>
                     <p className="text-sm text-muted-foreground">{svc.desc}</p>
                     <Link to="/ship" className="inline-flex items-center mt-3 text-sm font-medium text-eagle-orange hover:underline group-hover:gap-2 transition-all">
-                      Learn more <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
+                      {t.ship_next} <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </CardContent>
                 </Card>
@@ -155,40 +152,39 @@ export default function HomePage() {
       <section className="py-16 bg-secondary/50">
         <div className="container max-w-2xl">
           <AnimatedSection className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-3">Get an Instant Quote</h2>
-            <p className="text-muted-foreground">Transparent pricing — no hidden fees.</p>
+            <h2 className="text-3xl font-bold mb-3">{t.quote_title}</h2>
           </AnimatedSection>
           <AnimatedSection delay={200}>
             <Card className="shadow-lg">
               <CardContent className="pt-6">
                 <form onSubmit={handleQuote} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div><label className="text-sm font-medium mb-1 block">Origin</label><Input value={quoteOrigin} onChange={e => setQuoteOrigin(e.target.value)} placeholder="e.g. Dubai, UAE" required /></div>
-                    <div><label className="text-sm font-medium mb-1 block">Destination</label><Input value={quoteDestination} onChange={e => setQuoteDestination(e.target.value)} placeholder="e.g. United States" required /></div>
+                    <div><label className="text-sm font-medium mb-1 block">{t.quote_origin}</label><Input value={quoteOrigin} onChange={e => setQuoteOrigin(e.target.value)} placeholder="e.g. Dubai, UAE" required /></div>
+                    <div><label className="text-sm font-medium mb-1 block">{t.quote_destination}</label><Input value={quoteDestination} onChange={e => setQuoteDestination(e.target.value)} placeholder="e.g. United States" required /></div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div><label className="text-sm font-medium mb-1 block">Weight (kg)</label><Input type="number" min="0.1" step="0.1" value={quoteWeight} onChange={e => setQuoteWeight(e.target.value)} placeholder="5.0" required /></div>
+                    <div><label className="text-sm font-medium mb-1 block">{t.quote_weight}</label><Input type="number" min="0.1" step="0.1" value={quoteWeight} onChange={e => setQuoteWeight(e.target.value)} placeholder="5.0" required /></div>
                     <div>
-                      <label className="text-sm font-medium mb-1 block">Client Type</label>
+                      <label className="text-sm font-medium mb-1 block">{t.quote_client_type}</label>
                       <Select value={quoteClientType} onValueChange={(v: ClientType) => setQuoteClientType(v)}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="private">Private</SelectItem>
-                          <SelectItem value="international">International Business</SelectItem>
+                          <SelectItem value="private">{t.quote_private}</SelectItem>
+                          <SelectItem value="international">{t.quote_international}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
-                  <Button type="submit" className="w-full bg-eagle-orange hover:bg-eagle-orange-hover text-white hover:scale-[1.02] transition-transform">Calculate Quote</Button>
+                  <Button type="submit" className="w-full bg-eagle-orange hover:bg-eagle-orange-hover text-white hover:scale-[1.02] transition-transform">{t.quote_calculate}</Button>
                 </form>
                 {quoteResult && (
                   <div className="mt-6 p-4 rounded-lg bg-secondary border animate-slide-up">
                     <div className="flex justify-between items-baseline mb-2"><span className="text-sm text-muted-foreground">Service</span><span className="font-medium">{quoteResult.service}</span></div>
-                    <div className="flex justify-between items-baseline mb-2"><span className="text-sm text-muted-foreground">Base Price</span><span>{quoteResult.currency} {quoteResult.basePrice.toFixed(2)}</span></div>
-                    {quoteResult.discount > 0 && <div className="flex justify-between items-baseline mb-2 text-eagle-success"><span className="text-sm">International Discount (15%)</span><span>-{quoteResult.currency} {quoteResult.discount.toFixed(2)}</span></div>}
+                    <div className="flex justify-between items-baseline mb-2"><span className="text-sm text-muted-foreground">{t.quote_result}</span><span>{quoteResult.currency} {quoteResult.basePrice.toFixed(2)}</span></div>
+                    {quoteResult.discount > 0 && <div className="flex justify-between items-baseline mb-2 text-eagle-success"><span className="text-sm">{t.quote_international} (-15%)</span><span>-{quoteResult.currency} {quoteResult.discount.toFixed(2)}</span></div>}
                     <div className="flex justify-between items-baseline border-t pt-2 mt-2"><span className="font-semibold">Total</span><span className="text-xl font-bold text-eagle-orange">{quoteResult.currency} {quoteResult.finalPrice.toFixed(2)}</span></div>
-                    <p className="text-xs text-muted-foreground mt-2">Estimated delivery: {quoteResult.estimatedDays} business days</p>
-                    <Link to="/ship"><Button className="w-full mt-3 bg-eagle-orange hover:bg-eagle-orange-hover text-white">Book This Shipment</Button></Link>
+                    <p className="text-xs text-muted-foreground mt-2">{t.quote_delivery}: {quoteResult.estimatedDays} days</p>
+                    <Link to="/ship"><Button className="w-full mt-3 bg-eagle-orange hover:bg-eagle-orange-hover text-white">{t.nav_ship}</Button></Link>
                   </div>
                 )}
               </CardContent>
@@ -218,11 +214,10 @@ export default function HomePage() {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-eagle-orange rounded-full blur-[150px]" />
         </div>
         <AnimatedSection className="container relative z-10 text-center text-white space-y-6">
-          <h2 className="text-3xl md:text-4xl font-bold">Ready to Ship?</h2>
-          <p className="text-white/80 max-w-lg mx-auto">Join thousands of businesses and individuals who trust EAGLE-EXPRESS for their global logistics needs.</p>
+          <h2 className="text-3xl md:text-4xl font-bold">{t.nav_ship}?</h2>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/ship"><Button size="lg" className="bg-eagle-orange hover:bg-eagle-orange-hover text-white hover:scale-105 transition-transform shadow-lg">Ship Now</Button></Link>
-            <Link to="/signup"><Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 hover:scale-105 transition-transform">Create Account</Button></Link>
+            <Link to="/ship"><Button size="lg" className="bg-eagle-orange hover:bg-eagle-orange-hover text-white hover:scale-105 transition-transform shadow-lg">{t.nav_ship}</Button></Link>
+            <Link to="/signup"><Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 hover:scale-105 transition-transform">{t.nav_signup}</Button></Link>
           </div>
         </AnimatedSection>
       </section>
