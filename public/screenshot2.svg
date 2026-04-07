@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#ffffff"/>
+  <text x="540" y="960" font-family="Arial" font-size="100" fill="#003087" text-anchor="middle">Shipment Tracking</text>
+  <text x="540" y="1080" font-family="Arial" font-size="50" fill="#FF6200" text-anchor="middle">Live Map &amp; Updates</text>
+</svg>
