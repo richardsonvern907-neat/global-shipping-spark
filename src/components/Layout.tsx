@@ -9,9 +9,8 @@ const Header = () => {
   return (
     <header className="bg-eagle-blue text-white sticky top-0 z-50 shadow-lg">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-eagle-gold rounded-full flex items-center justify-center font-bold text-eagle-blue">EE</div>
-          <span className="font-bold text-xl tracking-tight">EAGLE-EXPRESS</span>
+        <Link to="/" className="flex items-center space-x-2 bg-white px-2 py-1 rounded-md">
+          <img src="/logo.svg" alt="EAGLE-EXPRESS" className="h-10 w-auto" />
         </Link>
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/" className="hover:text-eagle-gold transition">Home</Link>
@@ -57,7 +56,9 @@ const Footer = () => (
   <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
     <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
       <div>
-        <h3 className="text-white font-bold mb-4">EAGLE-EXPRESS</h3>
+        <div className="bg-white inline-block px-2 py-1 rounded-md mb-4">
+          <img src="/logo.svg" alt="EAGLE-EXPRESS" className="h-6 w-auto" />
+        </div>
         <p className="text-sm">Zurich 2024 Branding. Global logistics solutions at your fingertips. Precision, Speed, Security.</p>
       </div>
       <div>
